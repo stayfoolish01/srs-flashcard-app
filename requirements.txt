@@ -1,22 +1,35 @@
-# Django
-Django==5.0.1
+# ===========================================
+# SRS Flashcard App - Python Dependencies
+# ===========================================
+# Python Version: 3.13 (recommended)
+# Django Version: 5.2 LTS (Long Term Support)
+# ===========================================
+
+# Django Framework
+Django>=5.2,<5.3
 django-environ==0.11.2
 
-# FSRS Algorithm
-fsrs==4.1.2
+# FSRS Algorithm (Spaced Repetition)
+fsrs>=6.0.0
 
 # Image Processing
-Pillow==10.2.0
+Pillow>=12.0.0
 
 # Development Tools
 python-decouple==3.8
 
 # Testing
-pytest==7.4.4
-pytest-django==4.7.0
-pytest-cov==4.1.0
+pytest>=9.0.0
+pytest-django>=4.11.0
+pytest-cov>=4.1.0
 
 # Code Quality
-black==24.1.1
-flake8==7.0.0
-isort==5.13.2
+black>=24.0.0
+flake8>=7.0.0
+isort>=5.13.0
+
+# HTMX Integration (for dynamic UI)
+django-htmx>=1.21.0
+
+# Tailwind CSS Integration
+django-tailwind>=4.0.0

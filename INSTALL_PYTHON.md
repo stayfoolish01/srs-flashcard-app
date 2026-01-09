@@ -1,17 +1,25 @@
 # Pythonインストールガイド
 
-このガイドでは、Windows環境でPython 3.11以上をインストールする手順を説明します。
+このガイドでは、Windows環境でPython 3.13をインストールする手順を説明します。
+
+## 推奨バージョン
+
+| 項目 | バージョン | 理由 |
+|------|----------|------|
+| **Python** | **3.13** | Django 5.2 LTSと全ライブラリが完全対応 |
+| Django | 5.2 LTS | 長期サポート版で安定 |
 
 ## インストール手順
 
 ### 1. Pythonのダウンロード
 
-公式サイトからPythonをダウンロードします：
+以下の直接リンクからダウンロードしてください（推奨）：
 
-**https://www.python.org/downloads/**
+**Python 3.13.11 (64-bit) Windows installer:**
+https://www.python.org/ftp/python/3.13.11/python-3.13.11-amd64.exe
 
-- 「Download Python 3.12.x」ボタンをクリック（最新の安定版）
-- または、[Python 3.11.x](https://www.python.org/downloads/release/python-3118/)を選択
+または、公式サイトから選択：
+https://www.python.org/downloads/
 
 ### 2. インストーラーの実行
 

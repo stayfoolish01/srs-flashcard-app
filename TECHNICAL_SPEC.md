@@ -3,10 +3,10 @@
 ## 技術スタック
 
 ### バックエンド
-- **言語**: Python 3.11+
-- **フレームワーク**: Django 5.0+
+- **言語**: Python 3.13（推奨）
+- **フレームワーク**: Django 5.2 LTS（長期サポート版）
 - **データベース**: SQLite (開発環境), PostgreSQL (本番環境対応)
-- **FSRS実装**: fsrs-rs-python (Rust実装のPythonバインディング)
+- **FSRS実装**: fsrs 6.x（Python実装）
 
 ### フロントエンド
 - **テンプレートエンジン**: Django Templates

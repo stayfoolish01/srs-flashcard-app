@@ -1,105 +1,106 @@
 @echo off
+chcp 65001 >nul
 echo ========================================
-echo SRS Flashcard App - 自動セットアップ
+echo SRS Flashcard App - Auto Setup
 echo ========================================
 echo.
 
-REM Pythonのバージョン確認
-echo [1/8] Pythonのバージョン確認中...
+REM Check Python version
+echo [1/8] Checking Python version...
 python --version >nul 2>&1
 if errorlevel 1 (
-    echo エラー: Pythonがインストールされていません。
+    echo ERROR: Python is not installed.
     echo.
-    echo Python 3.11以上をインストールしてください:
+    echo Please install Python 3.13 or higher:
     echo https://www.python.org/downloads/
     echo.
-    echo インストール時に「Add Python to PATH」にチェックを入れてください。
+    echo Make sure to check "Add Python to PATH" during installation.
     pause
     exit /b 1
 )
 python --version
 echo.
 
-REM 仮想環境の作成
-echo [2/8] Python仮想環境を作成中...
+REM Create virtual environment
+echo [2/8] Creating Python virtual environment...
 if exist venv (
-    echo 仮想環境は既に存在します。スキップします。
+    echo Virtual environment already exists. Skipping.
 ) else (
     python -m venv venv
-    echo 仮想環境を作成しました。
+    echo Virtual environment created.
 )
 echo.
 
-REM 仮想環境の有効化
-echo [3/8] 仮想環境を有効化中...
+REM Activate virtual environment
+echo [3/8] Activating virtual environment...
 call venv\Scripts\activate.bat
 echo.
 
-REM pipのアップグレード
-echo [4/8] pipをアップグレード中...
+REM Upgrade pip
+echo [4/8] Upgrading pip...
 python -m pip install --upgrade pip
 echo.
 
-REM 依存パッケージのインストール
-echo [5/8] Python依存パッケージをインストール中...
+REM Install dependencies
+echo [5/8] Installing Python dependencies...
 pip install -r requirements.txt
 echo.
 
-REM .envファイルの作成
-echo [6/8] 環境変数ファイルを作成中...
+REM Create .env file
+echo [6/8] Creating environment file...
 if exist .env (
-    echo .envファイルは既に存在します。スキップします。
+    echo .env file already exists. Skipping.
 ) else (
     copy .env.example .env
-    echo .envファイルを作成しました。
+    echo .env file created.
     echo.
-    echo 重要: .envファイルのSECRET_KEYを変更してください！
-    echo 以下のコマンドでランダムなキーを生成できます:
+    echo IMPORTANT: Please change SECRET_KEY in .env file!
+    echo Run this command to generate a random key:
     echo python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 )
 echo.
 
-REM Node.jsの確認とパッケージインストール
-echo [7/8] Node.jsパッケージをインストール中...
+REM Check Node.js and install packages
+echo [7/8] Installing Node.js packages...
 where node >nul 2>&1
 if errorlevel 1 (
-    echo 警告: Node.jsがインストールされていません。
-    echo Tailwind CSSを使用するにはNode.js 18以上が必要です。
+    echo WARNING: Node.js is not installed.
+    echo Node.js 18+ is required for Tailwind CSS.
     echo https://nodejs.org/
     echo.
-    echo スキップして続行します...
+    echo Skipping...
 ) else (
     node --version
     if exist node_modules (
-        echo node_modulesは既に存在します。スキップします。
+        echo node_modules already exists. Skipping.
     ) else (
         call npm install
     )
 )
 echo.
 
-REM 完了メッセージ
-echo [8/8] セットアップ完了！
+REM Done
+echo [8/8] Setup complete!
 echo.
 echo ========================================
-echo 次のステップ:
+echo Next steps:
 echo ========================================
 echo.
-echo 1. .envファイルのSECRET_KEYを変更してください
+echo 1. Change SECRET_KEY in .env file
 echo.
-echo 2. Djangoプロジェクトを初期化:
+echo 2. Initialize Django project:
 echo    django-admin startproject config .
 echo.
-echo 3. データベースマイグレーション:
+echo 3. Run database migration:
 echo    python manage.py migrate
 echo.
-echo 4. スーパーユーザー作成:
+echo 4. Create superuser:
 echo    python manage.py createsuperuser
 echo.
-echo 5. 開発サーバー起動:
+echo 5. Start development server:
 echo    python manage.py runserver
 echo.
-echo 6. Tailwind CSSビルド（別ターミナル）:
+echo 6. Build Tailwind CSS (in another terminal):
 echo    npm run watch:css
 echo.
 echo ========================================

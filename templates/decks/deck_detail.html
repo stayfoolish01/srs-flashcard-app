@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ deck.name }} - SRS Flashcard App{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- ヘッダー -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">{{ deck.name }}</h1>
+                {% if deck.description %}
+                <p class="text-gray-600 mt-2">{{ deck.description }}</p>
+                {% endif %}
+            </div>
+            <div class="flex space-x-2">
+                <a href="{% url 'decks:deck_edit' deck.pk %}" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors">
+                    編集
+                </a>
+                <a href="{% url 'decks:deck_delete' deck.pk %}" class="bg-red-100 text-red-700 px-4 py-2 rounded-md hover:bg-red-200 transition-colors">
+                    削除
+                </a>
+            </div>
+        </div>
+
+        <!-- 統計 -->
+        <div class="grid grid-cols-3 gap-4 mt-6">
+            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                <p class="text-3xl font-bold text-gray-800">{{ deck.card_count }}</p>
+                <p class="text-sm text-gray-500">総カード数</p>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-4 text-center">
+                <p class="text-3xl font-bold text-blue-600">{{ deck.new_card_count }}</p>
+                <p class="text-sm text-blue-500">新規カード</p>
+            </div>
+            <div class="bg-orange-50 rounded-lg p-4 text-center">
+                <p class="text-3xl font-bold text-orange-600">{{ deck.due_card_count }}</p>
+                <p class="text-sm text-orange-500">復習待ち</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- アクションボタン -->
+    <div class="flex space-x-4 mb-6">
+        {% if deck.card_count > 0 %}
+        <a href="{% url 'study:session' deck.pk %}" class="flex-1 bg-indigo-600 text-white text-center px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors">
+            学習を開始
+        </a>
+        {% endif %}
+        <a href="{% url 'cards:card_create' deck.pk %}" class="flex-1 bg-green-600 text-white text-center px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+            カードを追加
+        </a>
+    </div>
+
+    <!-- カード一覧 -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-gray-800">カード一覧</h2>
+            <span class="text-sm text-gray-500">{{ deck.card_count }}枚</span>
+        </div>
+
+        {% if deck.cards.all %}
+        <div class="space-y-3">
+            {% for card in deck.cards.all %}
+            <div class="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                <div class="flex justify-between items-start">
+                    <a href="{% url 'cards:card_detail' card.pk %}" class="flex-1">
+                        <div class="flex items-start space-x-4">
+                            <!-- 表面プレビュー -->
+                            <div class="flex-1">
+                                <p class="text-sm text-indigo-600 font-medium mb-1">表面</p>
+                                <p class="text-gray-800 line-clamp-2">{{ card.front|truncatechars:80 }}</p>
+                                {% if card.front_image %}
+                                <span class="inline-block mt-1 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">画像あり</span>
+                                {% endif %}
+                            </div>
+                            <!-- 裏面プレビュー -->
+                            <div class="flex-1 border-l pl-4">
+                                <p class="text-sm text-green-600 font-medium mb-1">裏面</p>
+                                <p class="text-gray-600 line-clamp-2">{{ card.back|truncatechars:80 }}</p>
+                                {% if card.back_image %}
+                                <span class="inline-block mt-1 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">画像あり</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                    <!-- アクション -->
+                    <div class="flex space-x-2 ml-4">
+                        <a href="{% url 'cards:card_edit' card.pk %}" class="text-gray-400 hover:text-indigo-600" title="編集">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </a>
+                        <a href="{% url 'cards:card_delete' card.pk %}" class="text-gray-400 hover:text-red-600" title="削除">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-8">
+            <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <p class="text-gray-500 mb-4">このデッキにはまだカードがありません</p>
+            <a href="{% url 'cards:card_create' deck.pk %}" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+                最初のカードを追加
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- 戻るリンク -->
+    <div class="mt-6">
+        <a href="{% url 'decks:deck_list' %}" class="text-indigo-600 hover:text-indigo-500">
+            ← デッキ一覧に戻る
+        </a>
+    </div>
+</div>
+{% endblock %}

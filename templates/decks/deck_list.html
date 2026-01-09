@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}デッキ一覧 - SRS Flashcard App{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- ヘッダー -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">デッキ一覧</h1>
+        <a href="{% url 'decks:deck_create' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+            新規デッキ作成
+        </a>
+    </div>
+
+    {% if decks %}
+    <!-- デッキカード一覧 -->
+    <div class="grid gap-4 md:grid-cols-2">
+        {% for deck in decks %}
+        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+            <div class="flex justify-between items-start mb-3">
+                <a href="{% url 'decks:deck_detail' deck.pk %}" class="text-lg font-semibold text-gray-800 hover:text-indigo-600">
+                    {{ deck.name }}
+                </a>
+                <div class="flex space-x-2">
+                    <a href="{% url 'decks:deck_edit' deck.pk %}" class="text-gray-400 hover:text-indigo-600" title="編集">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </a>
+                    <a href="{% url 'decks:deck_delete' deck.pk %}" class="text-gray-400 hover:text-red-600" title="削除">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            {% if deck.description %}
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ deck.description }}</p>
+            {% endif %}
+
+            <!-- カード統計 -->
+            <div class="flex space-x-4 text-sm">
+                <div class="flex items-center text-gray-500">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    {{ deck.card_count }}枚
+                </div>
+                <div class="flex items-center text-blue-500">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full mr-1"></span>
+                    新規: {{ deck.new_card_count }}
+                </div>
+                <div class="flex items-center text-orange-500">
+                    <span class="w-2 h-2 bg-orange-500 rounded-full mr-1"></span>
+                    復習: {{ deck.due_card_count }}
+                </div>
+            </div>
+
+            <!-- 更新日時 -->
+            <p class="text-xs text-gray-400 mt-3">
+                更新: {{ deck.updated_at|date:"Y/n/j H:i" }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- デッキがない場合 -->
+    <div class="bg-white rounded-lg shadow-md p-12 text-center">
+        <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+        </svg>
+        <h2 class="text-xl font-semibold text-gray-700 mb-2">デッキがありません</h2>
+        <p class="text-gray-500 mb-6">新しいデッキを作成して学習を始めましょう。</p>
+        <a href="{% url 'decks:deck_create' %}" class="inline-block bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+            最初のデッキを作成
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

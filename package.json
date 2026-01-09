@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Anki-style SRS flashcard web app with FSRS v4 algorithm",
   "scripts": {
-    "build:css": "tailwindcss -i ./static/src/input.css -o ./static/css/styles.css --minify",
-    "watch:css": "tailwindcss -i ./static/src/input.css -o ./static/css/styles.css --watch"
+    "build:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --minify",
+    "watch:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch"
   },
   "keywords": [
     "srs",

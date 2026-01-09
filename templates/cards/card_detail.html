@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}カード詳細 - SRS Flashcard App{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <!-- ヘッダー -->
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <a href="{% url 'decks:deck_detail' deck.pk %}" class="text-indigo-600 hover:text-indigo-500 text-sm">
+                ← {{ deck.name }}
+            </a>
+            <h1 class="text-2xl font-bold text-gray-800 mt-1">カード詳細</h1>
+        </div>
+        <div class="flex space-x-2">
+            <a href="{% url 'cards:card_edit' card.pk %}" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors">
+                編集
+            </a>
+            <a href="{% url 'cards:card_delete' card.pk %}" class="bg-red-100 text-red-700 px-4 py-2 rounded-md hover:bg-red-200 transition-colors">
+                削除
+            </a>
+        </div>
+    </div>
+
+    <!-- カード表示 -->
+    <div class="space-y-4">
+        <!-- 表面 -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-sm font-semibold text-indigo-600 mb-3">表面（質問）</h2>
+            {% if card.front %}
+            <p class="text-gray-800 whitespace-pre-wrap">{{ card.front }}</p>
+            {% endif %}
+            {% if card.front_image %}
+            <img src="{{ card.front_image.url }}" alt="表面画像" class="mt-3 max-w-full rounded-lg">
+            {% endif %}
+        </div>
+
+        <!-- 裏面 -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-sm font-semibold text-green-600 mb-3">裏面（答え）</h2>
+            {% if card.back %}
+            <p class="text-gray-800 whitespace-pre-wrap">{{ card.back }}</p>
+            {% endif %}
+            {% if card.back_image %}
+            <img src="{{ card.back_image.url }}" alt="裏面画像" class="mt-3 max-w-full rounded-lg">
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- メタ情報 -->
+    <div class="mt-6 text-sm text-gray-500">
+        <p>作成日: {{ card.created_at|date:"Y/n/j H:i" }}</p>
+        <p>更新日: {{ card.updated_at|date:"Y/n/j H:i" }}</p>
+    </div>
+</div>
+{% endblock %}

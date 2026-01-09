@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}プロフィール - SRS Flashcard App{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white shadow-md rounded-lg p-8">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">プロフィール</h1>
+            <a href="{% url 'accounts:profile_edit' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+                編集
+            </a>
+        </div>
+
+        <div class="space-y-6">
+            <!-- ユーザー情報 -->
+            <div class="border-b pb-4">
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">アカウント情報</h2>
+                <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">ユーザー名</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ user.username }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">メールアドレス</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ user.email|default:"未設定" }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">登録日</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ user.date_joined|date:"Y年n月j日" }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">最終ログイン</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ user.last_login|date:"Y年n月j日 H:i" }}</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <!-- 学習設定 -->
+            <div>
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">学習設定</h2>
+                <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">タイムゾーン</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ profile.timezone }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">1日の新規カード数</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ profile.daily_new_cards }}枚</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <!-- 学習統計（将来実装） -->
+            <div class="border-t pt-4">
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">学習統計</h2>
+                <p class="text-sm text-gray-500">統計情報は今後の機能で実装予定です。</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
